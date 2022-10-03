@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "f2042edf-3462-42fd-b5d7-e6ee5a6418fe",
+		"name": "ES-INDEX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add document to index",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"doctype\": \"bookmark\",\r\n \"context\": \"web search\",\r\n \"tags\": \"internet web search\",\r\n \"doctext\": \"google\",\r\n  \"linkurl\": \"http://google.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index/_doc",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index",
+						"_doc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search single field",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"query\": {\r\n    \"multi_match\" : {\r\n      \"query\":    \"google.com\", \r\n      \"fields\": [ \"doctype\", \"context\", \"tags\", \"doctext\", \"linkurl\"] \r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index/_search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "flush index",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index/_flush",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index",
+						"_flush"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE INDEX Copy",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"number_of_shards\": 1,\r\n    \"number_of_replicas\": 0\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"doctype\": { \"type\": \"text\" },\r\n      \"context\": { \"type\": \"text\" },\r\n      \"tags\": { \"type\": \"text\" },\r\n      \"doctext\": { \"type\": \"text\" },\r\n      \"linkurl\": { \"type\": \"text\" }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete index",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"number_of_shards\": 1\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"doctype\": { \"type\": \"text\" },\r\n      \"context\": { \"type\": \"text\" },\r\n      \"tags\": { \"type\": \"text\" },\r\n      \"doctext\": { \"type\": \"text\" }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cat indexes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"number_of_shards\": 1\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"doctype\": { \"type\": \"text\" },\r\n      \"context\": { \"type\": \"text\" },\r\n      \"tags\": { \"type\": \"text\" },\r\n      \"doctext\": { \"type\": \"text\" }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/_cat/indices",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"indices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get index mapping",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"number_of_shards\": 1\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"doctype\": { \"type\": \"text\" },\r\n      \"context\": { \"type\": \"text\" },\r\n      \"tags\": { \"type\": \"text\" },\r\n      \"doctext\": { \"type\": \"text\" }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:9200/dm.search.index/_mappings",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"dm.search.index",
+						"_mappings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
